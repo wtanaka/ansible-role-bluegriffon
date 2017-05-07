@@ -1,0 +1,27 @@
+---
+- include: compat.yml
+
+- name: apt-get update
+  apt: update_cache=yes cache_valid_time=3600
+  sudo: yes
+
+- name: install gdebi
+  apt: name=gdebi
+  sudo: yes
+
+- name: Check if bluegriffon is installed
+  command: dpkg-query -W bluegriffon
+  register: check_bluegriffon
+  failed_when: false
+  changed_when: false
+
+- name: Download Ubuntu bluegriffon package
+  command: wget -O {{bluegriffon_tmp_deb}} {{bluegriffon_url_deb}}
+  args:
+    creates: "{{bluegriffon_tmp_deb}}"
+  when: check_bluegriffon.rc == 1
+
+- name: Install Ubuntu bluegriffon package
+  sudo: true
+  command: gdebi --non-interactive {{bluegriffon_tmp_deb}}
+  when: check_bluegriffon.rc == 1
