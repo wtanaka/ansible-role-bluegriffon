@@ -1,0 +1,5 @@
+---
+bluegriffon_tmp_deb: "/tmp/bluegriffon.deb"
+bluegriffon_architecture: "{% if ansible_architecture == 'x86_64' %}amd64{% else %}i386{% endif %}"
+bluegriffon_version: "2.3.1"
+bluegriffon_url_deb: "http://bluegriffon.org/freshmeat/{{bluegriffon_version}}/bluegriffon_{{bluegriffon_version}}-1ubuntu1_{{bluegriffon_architecture}}.deb"
